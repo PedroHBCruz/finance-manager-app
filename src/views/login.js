@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import Card from '../components/card';
 import FormGroup from '../components/form-gorup';
 
