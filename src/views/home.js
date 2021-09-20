@@ -1,6 +1,9 @@
-import axios from "axios";
+
 import React from "react"
+import UsuarioService from "../app/service/usuarioService";
 import { Jumbotron } from 'styled-jumbotron-component';
+
+import LocalStorageService from "../app/service/localstorageService";
 
 class Home extends React.Component {
   
@@ -9,12 +12,17 @@ class Home extends React.Component {
         saldo: 0
     }
 
+    constructor(){
+        super()
+        this.UsuarioService = new UsuarioService();
+    }
+
     componentDidMount(){
         
-        const usuarioLogadoString =  localStorage.getItem('_usuario_logado')
-        const usuarioLogado = JSON.parse(usuarioLogadoString)
-        axios.get(`http://localhost:8080/api/usuarios/${usuarioLogado.id}/saldo`)
-        
+        const usuarioLogado = LocalStorageService.obterItem('_usuario_logado')
+
+        this.UsuarioService
+        .obterSaldoPorIdUsuario(usuarioLogado.id)
         .then(response => {
             this.setState({saldo: response.data})
         }).catch(error => {
