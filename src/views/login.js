@@ -6,13 +6,13 @@ import { withRouter } from 'react-router-dom';
 
 import UsuarioService from '../app/service/usuarioService';
 import LocalStorageService from '../app/service/localstorageService';
+import { mensagemErro } from '../components/toastr'
 
 class Login extends React.Component {
- 
+
     state = {
         email: '',
         senha: '',
-        mensagemErro: null
     }
 
     constructor() {
@@ -21,18 +21,18 @@ class Login extends React.Component {
     }
 
     entrar = () => {
-        
+
         this.service.autenticar({
             email: this.state.email,
             senha: this.state.senha
 
         }).then(response => {
             LocalStorageService.adicionarItem('_usuario_logado', response.data)
-                this.props.history.push('/home')
+            this.props.history.push('/home')
 
-            }).catch(erro => {
-                this.setState({ mensagemErro: erro.response.data })
-            })
+        }).catch(erro => {
+            mensagemErro(erro.response.data)
+        })
     }
 
     prepareCadastrar = () => {
@@ -47,9 +47,6 @@ class Login extends React.Component {
                 <div className="col-md-6" style={{ position: 'relative', left: '300px' }}>
                     <div className="bs-docs-section">
                         <Card title="Login">
-                            <div className="row">
-                                <span>{this.state.mensagemErro}</span>
-                            </div>
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="bs-component">
